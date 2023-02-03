@@ -2,29 +2,29 @@ import java.io.*;
 import java.util.*;
 
 public class Counter {
-    private InputStreamReader reader;
-    private Map<String, Integer> wordMap;
-    private int wordsCounter;
+    private InputStreamReader reader_;
+    private Map<String, Integer> wordMap_;
+    private int wordsCounter_;
 
     public Counter(String path){
         try {
-            this.reader = new InputStreamReader(new FileInputStream(path));
+            this.reader_ = new InputStreamReader(new FileInputStream(path));
         } catch (IOException e) {
             System.out.println("The file is not open!");
             System.exit(1);
         }
-        wordMap = new HashMap<>();
+        wordMap_ = new HashMap<>();
     }
 
     public void doCount() {
         try {
 
             String tmp;
-            while (!(tmp = wordDivider()).equals("")){
+            while (!(tmp = wordPicker()).equals("")){
                 wordProcessing(tmp);
             }
             System.out.println("Creating output...");
-            wordMap = sortByValue(wordMap);
+            wordMap_ = sortByValue(wordMap_);
             generateOutput();
 
         } catch (IOException e){
@@ -35,26 +35,26 @@ public class Counter {
 
     private void wordProcessing(String word){
         word = word.toLowerCase();
-        if (!wordMap.containsKey(word)){
-            wordMap.put(word, 1);
+        if (!wordMap_.containsKey(word)){
+            wordMap_.put(word, 1);
         } else {
-            Integer tmp = wordMap.get(word);
-            wordMap.put(word, ++tmp);
+            Integer tmp = wordMap_.get(word);
+            wordMap_.put(word, ++tmp);
         }
-        ++wordsCounter;
+        ++wordsCounter_;
     }
 
-    private String wordDivider() throws IOException{
+    private String wordPicker() throws IOException{
         StringBuilder sb = new StringBuilder();
-        int a;
+        int ch;
 
-        while ((a = reader.read()) != -1){
-            if (Character.isLetterOrDigit((char)a) || (char)a == '\'') break;
+        while ((ch = reader_.read()) != -1){
+            if (Character.isLetterOrDigit((char) ch) || (char) ch == '\'') break;
         }
 
-        while ((Character.isLetterOrDigit((char)a) || (char)a == '\'') && (a != -1)){
-            sb.append((char)a);
-            a = reader.read();
+        while ((Character.isLetterOrDigit((char) ch) || (char) ch == '\'') && (ch != -1)){
+            sb.append((char) ch);
+            ch = reader_.read();
         }
 
         return sb.toString();
@@ -68,7 +68,7 @@ public class Counter {
 
         // 2. Sort list with Collections.sort(), provide a custom Comparator
         //    Try switch the o1 o2 position for a different order
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+        list.sort(new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> o1,
                                Map.Entry<String, Integer> o2) {
                 return (o2.getValue()).compareTo(o1.getValue());
@@ -91,15 +91,22 @@ public class Counter {
         } else System.out.println("File already exists! Rewriting...");
 
         FileWriter writer = new FileWriter(file, false);
-        String head = "Word,Entry(amount),Entry(% of all)";
+        String head = "Word,Entry(amount),Entry(percentage)";
         writer.write(head);
         writer.append('\n');
 
-        for (var entry : wordMap.entrySet()) {
-            writer.write(entry.getKey() + "," + entry.getValue() + ',' + ((float)entry.getValue()/wordsCounter));
+        for (var entry : wordMap_.entrySet()) {
+            writer.write(entry.getKey() + "," + entry.getValue() + ',' + ((float)entry.getValue()/ wordsCounter_));
             writer.append('\n');
         }
         writer.flush();
     }
 
+    public boolean equals(Counter other) {
+        return this.wordMap_.equals(other.wordMap_);
+    }
+
+    public int hashCode(){
+        return this.wordMap_.hashCode();
+    }
 }
