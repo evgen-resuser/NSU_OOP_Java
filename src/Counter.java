@@ -12,6 +12,12 @@ public class Counter {
         } catch (IOException e) {
             System.out.println("The file is not open!");
             System.exit(1);
+        } finally {
+            try {
+                reader_.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         wordMap_ = new HashMap<>();
     }
