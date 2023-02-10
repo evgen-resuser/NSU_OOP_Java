@@ -1,6 +1,10 @@
-package calculator;
+package calculator.commands;
 
-public class PushCmd implements CmdInterface{
+import calculator.CalculatorException;
+import calculator.CmdInterface;
+import calculator.Context;
+
+public class PushCmd implements CmdInterface {
     @Override
     public void doCmd(Context context, String[] args) throws CalculatorException {
         if (args.length < 2) throw new CalculatorException("Wrong number of arguments!");
