@@ -33,7 +33,7 @@ public class Factory {
     public CmdInterface createCmd(String name) throws NoSuchMethodException, InvocationTargetException,
             InstantiationException, IllegalAccessException, ClassNotFoundException {
 
-        Class<?> cmd = Class.forName("calculator."+cmdMap.get(name));
+        Class<?> cmd = Class.forName("calculator.commands."+cmdMap.get(name));
         Constructor<?> con = cmd.getDeclaredConstructor();
         Object o = con.newInstance();
 

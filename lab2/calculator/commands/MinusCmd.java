@@ -1,4 +1,8 @@
-package calculator;
+package calculator.commands;
+
+import calculator.CalculatorException;
+import calculator.CmdInterface;
+import calculator.Context;
 
 public class MinusCmd implements CmdInterface {
     @Override
