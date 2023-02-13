@@ -1,7 +1,6 @@
 package calculator.tests;
 
 import calculator.Calculator;
-import calculator.CalculatorException;
 import org.junit.After;
 import org.junit.jupiter.api.Test;
 

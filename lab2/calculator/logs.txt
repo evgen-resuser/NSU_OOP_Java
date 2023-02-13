@@ -1,0 +1,160 @@
+февр. 13, 2023 6:20:57 PM calculator.Calculator <init>
+INFO: Creating the Calculator instance from file...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "# TEST"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {}
+Stack: []
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "DEFINE A 10"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0}
+Stack: []
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "DEFINE B 2"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0}
+Stack: []
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "DEFINE C 3"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0}
+Stack: []
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "PUSH A"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0}
+Stack: [10.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "PUSH B"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0}
+Stack: [10.0, 2.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "PUSH C"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0}
+Stack: [10.0, 2.0, 3.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "+"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0}
+Stack: [10.0, 5.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "DEFINE D 1.8"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0, D=1.8}
+Stack: [10.0, 5.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "PUSH D"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0, D=1.8}
+Stack: [10.0, 5.0, 1.8]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "*"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0, D=1.8}
+Stack: [10.0, 9.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "SQRT"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0, D=1.8}
+Stack: [10.0, 3.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "-"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0, D=1.8}
+Stack: [-7.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Trying to interpret command "PRINT"... 
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Creating a command with Factory...
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator interpretString
+INFO: Do command: 
+Variable Map: {A=10.0, B=2.0, C=3.0, D=1.8}
+Stack: [-7.0]
+----------------
+февр. 13, 2023 6:20:57 PM calculator.Calculator start
+INFO: Calculation complete!
+
