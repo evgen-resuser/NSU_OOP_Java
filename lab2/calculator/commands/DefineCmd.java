@@ -9,6 +9,8 @@ public class DefineCmd implements CmdInterface{
     public void doCmd(Context context, String[] args) throws CalculatorException {
         if (args.length != 3) throw new CalculatorException("Wrong number of arguments!");
 
+        if (Character.isDigit(args[1].charAt(0))) throw new CalculatorException(args[1] + ": The variable name cannot begin with the digit!");
+
         float flt = 0;
         try {
             flt = Float.parseFloat(args[2]);

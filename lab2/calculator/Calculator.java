@@ -3,7 +3,6 @@ package calculator;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -66,6 +65,8 @@ public class Calculator {
             input = scanner.nextLine();
             if (Objects.equals(input, "quit")) {
                 logger.info("Command quit: exit the program...\n----------------");
+                fh.close();
+                scanner.close();
                 break;
             }
 
@@ -78,7 +79,10 @@ public class Calculator {
             }
         }
 
+        scanner.close();
         logger.info("Calculation complete!\n");
+        fh.close();
+
     }
 
     private void interpretString(String input) throws NoSuchMethodException, InvocationTargetException,
@@ -94,7 +98,7 @@ public class Calculator {
             logger.warning("Calculation Error!\n----------------");
             System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
-            logger.warning("Command does not exists! Check the file name or config!\n----------------");
+            logger.warning("Command does not exist! Check the file name or config.txt!\n----------------");
         System.out.format("Command \"%s\" not found!\n", args[0]);
         }
     }

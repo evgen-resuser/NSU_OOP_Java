@@ -16,7 +16,7 @@ public class Factory {
     }
 
     private void initMap(){
-        InputStream is = Factory.class.getResourceAsStream("config");
+        InputStream is = Factory.class.getResourceAsStream("config.txt");
         assert is != null;
         Scanner scan = new Scanner(is);
 
@@ -28,6 +28,7 @@ public class Factory {
             cmdMap.put(str[0], str[1]);
         }
 
+        scan.close();
     }
 
     public CmdInterface createCmd(String name) throws NoSuchMethodException, InvocationTargetException,

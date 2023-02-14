@@ -4,6 +4,8 @@ import calculator.CalculatorException;
 import calculator.CmdInterface;
 import calculator.Context;
 
+//Debug command
+
 public class PrintContextCmd implements CmdInterface{
     @Override
     public void doCmd(Context context, String[] args) throws CalculatorException {

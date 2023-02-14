@@ -1,0 +1,12 @@
+DEFINE DefineCmd
+POP PopCmd
+PUSH PushCmd
+PRINT PrintCmd
+CONTEXT PrintContextCmd
++ PlusCmd
+- MinusCmd
+* MultiplyCmd
+/ DivisionCmd
+SQRT SqrtCmd
+# CommentCmd
+ARIFM ArifmCmd
