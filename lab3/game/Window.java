@@ -9,17 +9,20 @@ import java.awt.*;
 import java.util.Map;
 
 public class Window extends JFrame implements IObserver{
-    Facade facade;
-    private Tile[][] tiles;
+    private final Facade facade;
     private final int size;
+
+    private Map<Integer, Integer> map;
+    private Tile[][] tiles;
 
     JPanel grid;
     GridLayout layout;
 
-    Map<Integer, Integer> map;
-
     public Window(Facade facade){
+        facade.getObject().registerObserver(this);
+
         size = facade.getSize();
+        //size = 4;
         this.facade = facade;
 
         this.setResizable(false);
@@ -28,10 +31,9 @@ public class Window extends JFrame implements IObserver{
         initGrid();
         initColorMap();
 
-        facade.getObject().registerObserver(this);
+        redrawGrid(facade.getNums());
 
         this.pack();
-
     }
 
     @Override
@@ -43,6 +45,9 @@ public class Window extends JFrame implements IObserver{
             case GAME_OVER -> {
                 System.out.println("Game Over!");
                 gameOverScreen();
+            }
+            case REACH_2048 -> {
+                System.out.println("Reaching the 2048!");
             }
         }
     }

@@ -1,18 +1,35 @@
 package game.model;
 
 class LineCollider {
-    int[][] test;
+    int[][] arr;
+    int size;
 
     public LineCollider(int[][] nums){
-        test = new int[][]{
-                {0, 2, 4, 8},
-                {16, 32, 64, 128},
-                {256, 512, 1024, 2048,},
-                {4096, 0, 0, 0}
-        };
+        arr = nums;
+        size = nums.length;
     }
 
-    public int[][] getTest() {
-        return test;
+    public void transpose(){
+        int[][] res = new int[size][size];
+
+        for (int i = 0; i != size; i++){
+            for (int j = 0; j != size; j++)
+                res[i][j] = arr[j][i];
+        }
+        arr = res;
+    }
+
+    public void reverse(){
+        int[][] res = new int[size][size];
+
+        for (int i = 0; i != size; i++){
+            for (int j = 0; j != size; j++)
+                res[i][j] = arr[i][size-j-1];
+        }
+        arr = res;
+    }
+
+    public void collide(){
+
     }
 }

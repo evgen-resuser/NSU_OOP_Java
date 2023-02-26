@@ -16,7 +16,7 @@ class Tile extends JPanel {
 
 
         label  = new JLabel();
-        label.setText("0");
+        label.setText(" ");
         label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         label.setFont(new Font("Arial", Font.BOLD, 36));
         label.setVerticalAlignment(JLabel.CENTER);
@@ -28,7 +28,8 @@ class Tile extends JPanel {
         number = newNum;
 
         this.setBackground(new Color(color));
-        label.setText(Integer.toString(newNum));
+        if (newNum == 0) label.setText(" ");
+        else label.setText(Integer.toString(newNum));
 
         this.repaint();
     }

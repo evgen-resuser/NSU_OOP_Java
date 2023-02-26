@@ -17,19 +17,19 @@ public class Controls extends KeyAdapter {
 
         switch (e.getKeyCode()) {
             case 39 -> {    // -> Right
-                System.out.println("Key pressed: Right");
+                //System.out.println("Key pressed: Right");
                 direction = 'R';
             }
             case 38 -> {    // -> Top
-                System.out.println("Key pressed: Up");
+                //System.out.println("Key pressed: Up");
                 direction = 'U';
             }
             case 37 -> {    // -> Left
-                System.out.println("Key pressed: Left");
+                //System.out.println("Key pressed: Left");
                 direction = 'L';
             }
             case 40 -> {    // -> Bottom
-                System.out.println("Key pressed: Down");
+                //System.out.println("Key pressed: Down");
                 direction = 'D';
             }
             default -> {
