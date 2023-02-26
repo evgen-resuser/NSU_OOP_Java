@@ -8,17 +8,13 @@ import java.awt.event.KeyEvent;
 public class Controls extends KeyAdapter {
     private final Facade facade;
 
-    private char direction = ' ';
-
-    public char getDirection(){
-        return direction;
-    }
-
     public Controls(Facade facade){
         this.facade = facade;
     }
 
     public void keyPressed(KeyEvent e) {
+        char direction = ' ';
+
         switch (e.getKeyCode()) {
             case 39 -> {    // -> Right
                 System.out.println("Key pressed: Right");

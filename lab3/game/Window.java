@@ -1,12 +1,12 @@
 package game;
 
 import game.model.Facade;
-import game.model.Message;
 import game.observer.IObserver;
+import game.theme.ThemeReader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.util.Map;
 
 public class Window extends JFrame implements IObserver{
     Facade facade;
@@ -16,31 +16,35 @@ public class Window extends JFrame implements IObserver{
     JPanel grid;
     GridLayout layout;
 
-    JPanel panel;
-
-    char direction = ' ';
-
-    public void setDirection(char direction) {
-        this.direction = direction;
-        panel.repaint();
-    }
+    Map<Integer, Integer> map;
 
     public Window(Facade facade){
-        size = 4;
+        size = facade.getSize();
         this.facade = facade;
-        this.facade.setGridSize(size);
 
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         initGrid();
+        initColorMap();
 
         facade.getObject().registerObserver(this);
 
+        this.pack();
+
     }
 
-    public int getGridSize() {
-        return size;
+    @Override
+    public void update(Message msg) {
+        switch (msg){
+            case UPDATE -> {
+                redrawGrid(facade.getNums());
+            }
+            case GAME_OVER -> {
+                System.out.println("Game Over!");
+                gameOverScreen();
+            }
+        }
     }
 
     private void initGrid(){
@@ -52,7 +56,7 @@ public class Window extends JFrame implements IObserver{
 
         for (int i = 0; i != size; i++){
             for (int j = 0; j != size; j++) {
-                tiles[j][i] = new Tile(i, j);
+                tiles[j][i] = new Tile();
                 grid.add(tiles[j][i]);
             }
         }
@@ -60,17 +64,27 @@ public class Window extends JFrame implements IObserver{
         this.add(grid);
     }
 
-    @Override
-    public void update(Message msg) {
-        switch (msg){
-            case UPDATE -> {
-                int[][] newGrid = facade.getNums();
-                System.out.println(newGrid[0][0]);
-            }
-            case GAME_OVER -> {
-                System.out.println("Game Over!");
+    private void redrawGrid(int[][] arr){
+        int newColor;
+        for (int i = 0; i != size; i++){
+            for (int j = 0; j != size; j++) {
+                if (arr[i][j] > 2048) newColor = map.get(4096);
+                else newColor = map.get(arr[i][j]);
+                tiles[j][i].change(arr[i][j], newColor);
             }
         }
+    }
+
+    private void initColorMap(){
+        ThemeReader tr = new ThemeReader();
+        map = tr.getColorMap();
+    }
+
+    private void gameOverScreen(){
+
+        grid.setVisible(false);
 
     }
+
+
 }

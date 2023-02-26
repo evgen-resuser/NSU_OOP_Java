@@ -1,16 +1,19 @@
 package game.model;
 
-import game.Controls;
-import game.Window;
-import game.model.Model;
 import game.observer.IObject;
 
 public class Facade {
-    private Model core = new Model();
+    private Model core;
+    private int size;
 
-    public Facade(){
-        //core.setSize(4);
+    public Facade(int size){
+        this.size = size;
+        core = new Model(size);
         core.start();
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public int[][] getNums(){
@@ -19,6 +22,10 @@ public class Facade {
 
     public IObject getObject(){
         return core;
+    }
+
+    public int getScore(){
+        return core.score;
     }
 
     public void setGridSize(int size){

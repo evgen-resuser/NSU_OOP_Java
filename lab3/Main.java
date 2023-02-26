@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class Main {
     public static void main(String[] args) {
-        Facade facade = new Facade();
+        Facade facade = new Facade(4);
 
         Window window = new Window(facade);
         window.setSize(520, 520);

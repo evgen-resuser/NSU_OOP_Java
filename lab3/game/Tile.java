@@ -4,29 +4,36 @@ import javax.swing.*;
 import java.awt.*;
 
 class Tile extends JPanel {
-    private int x;
-    private int y;
     private int number;
-    private JLabel label = new JLabel();
+    private JLabel label;
 
-    public Tile(int x, int y){
-        this.x = x;
-        this.y = y;
-
+    public Tile(){
         number = 0;
-        label.setText(" ");
-        label.setBounds(50, 50, 20, 20);
 
+        this.setLayout(new GridBagLayout());
         this.setBackground(Color.lightGray);
+
+
+
+        label  = new JLabel();
+        label.setText("0");
+        label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        label.setFont(new Font("Arial", Font.BOLD, 36));
+        label.setVerticalAlignment(JLabel.CENTER);
+
         this.add(label);
     }
 
-    public void change(int newNum){
-        this.number = newNum;
+    public void change(int newNum, int color){
+        number = newNum;
+
+        this.setBackground(new Color(color));
         label.setText(Integer.toString(newNum));
+
         this.repaint();
     }
 
-
-
+    public int getNumber() {
+        return number;
+    }
 }

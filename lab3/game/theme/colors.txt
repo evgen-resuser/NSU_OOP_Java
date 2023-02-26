@@ -1,0 +1,13 @@
+0 c0c1c1
+2 fff9ad
+4 fff3a4
+8 ffec9a
+16 ffe490
+32 ffdb87
+64 ffd17d
+128 ffc573
+256 ffb96a
+512 ffad60
+1024 ff9661
+2048 ff887a
+4096 ff7060
