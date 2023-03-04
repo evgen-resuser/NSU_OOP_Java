@@ -25,7 +25,7 @@ public class ThemeReader {
         InputStream is = ThemeReader.class.getResourceAsStream("colors.txt");
 
         if (is == null){
-            throw new IOException("File colors.txt not found!");
+            throw new IOException("File 'colors.txt' not found!");
         }
 
         Scanner scan = new Scanner(is);

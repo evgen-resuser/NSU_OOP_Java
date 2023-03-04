@@ -12,29 +12,19 @@ public class Controls extends KeyAdapter {
         this.facade = facade;
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
-        char direction = ' ';
 
         switch (e.getKeyCode()) {
-            case 39 -> {    // -> Right
-                //System.out.println("Key pressed: Right");
-                direction = 'R';
-            }
-            case 38 -> {    // -> Top
-                //System.out.println("Key pressed: Up");
-                direction = 'U';
-            }
-            case 37 -> {    // -> Left
-                //System.out.println("Key pressed: Left");
-                direction = 'L';
-            }
-            case 40 -> {    // -> Bottom
-                //System.out.println("Key pressed: Down");
-                direction = 'D';
-            }
-            default -> {
-            }
+            case 39 -> facade.sendKey('R');
+
+            case 38 -> facade.sendKey('U');
+
+            case 37 -> facade.sendKey('L');
+
+            case 40 -> facade.sendKey('D');
+
+            default -> facade.sendKey(' ');
         }
-        facade.sendKey(direction);
     }
 }

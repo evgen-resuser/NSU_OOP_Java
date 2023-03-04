@@ -3,7 +3,6 @@ import game.Window;
 import game.model.Facade;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class Main {
     public static void main(String[] args) {

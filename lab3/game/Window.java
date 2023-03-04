@@ -22,7 +22,6 @@ public class Window extends JFrame implements IObserver{
         facade.getObject().registerObserver(this);
 
         size = facade.getSize();
-        //size = 4;
         this.facade = facade;
 
         this.setResizable(false);
@@ -39,15 +38,16 @@ public class Window extends JFrame implements IObserver{
     @Override
     public void update(Message msg) {
         switch (msg){
-            case UPDATE -> {
+            case UPDATE ->
                 redrawGrid(facade.getNums());
-            }
+
             case GAME_OVER -> {
                 System.out.println("Game Over!");
                 gameOverScreen();
             }
             case REACH_2048 -> {
                 System.out.println("Reaching the 2048!");
+                winScreen();
             }
         }
     }
@@ -91,5 +91,9 @@ public class Window extends JFrame implements IObserver{
 
     }
 
+    private void winScreen(){
 
+        grid.setVisible(false);
+
+    }
 }
