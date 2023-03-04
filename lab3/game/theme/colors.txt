@@ -1,3 +1,5 @@
+# Colors config: -1 = color of new tile, 4096 = color for a tile with number 4096 and bigger
+-1 b4ffa3
 0 c0c1c1
 2 fff7b3
 4 ffe39f

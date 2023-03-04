@@ -29,6 +29,7 @@ public class ThemeReader {
         }
 
         Scanner scan = new Scanner(is);
+        scan.nextLine(); // to skip the header
 
         String input;
 

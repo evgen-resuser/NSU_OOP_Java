@@ -1,5 +1,5 @@
 import game.Controls;
-import game.Window;
+import game.view.Window;
 import game.model.Facade;
 
 import javax.swing.*;

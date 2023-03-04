@@ -3,8 +3,8 @@ package game.model;
 import game.observer.IObject;
 
 public class Facade {
-    private Model core;
-    private int size;
+    private final Model core;
+    private final int size;
 
     public Facade(int size){
         this.size = size;
@@ -34,5 +34,9 @@ public class Facade {
 
     public void sendKey(char key){
         core.pressedKey = key;
+    }
+
+    public int[] getLastGenerated(){
+        return core.lastGenerated;
     }
 }

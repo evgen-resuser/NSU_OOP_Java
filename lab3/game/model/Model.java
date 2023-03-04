@@ -101,6 +101,13 @@ class Model extends Thread implements IObject {
 
         System.out.println(score);
 
+        try {
+            sleep(10);
+        } catch (InterruptedException e){
+            System.out.println("Interrupted!");
+            currentThread().interrupt();
+        }
+
         if (!generateCell()) msg = Message.GAME_OVER;
         else msg = Message.UPDATE;
 
@@ -108,6 +115,8 @@ class Model extends Thread implements IObject {
     }
 
     private final Random random = new Random();
+
+    int[] lastGenerated;
 
     private boolean generateCell(){
 
@@ -127,6 +136,8 @@ class Model extends Thread implements IObject {
         int chance = random.nextInt(10);
         if (chance < 9) nums[pos[0]][pos[1]] = 2;
         else nums[pos[0]][pos[1]] = 4;
+
+        lastGenerated = pos;
 
         return true;
     }
