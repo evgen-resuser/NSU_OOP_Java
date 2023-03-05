@@ -6,7 +6,6 @@ import game.observer.IObserver;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Stack;
 
 class Model extends Thread implements IObject {
 
@@ -46,13 +45,19 @@ class Model extends Thread implements IObject {
     int[][] nums;
 
     boolean[][] occupiedCells;
+    int occCount;
+
+    LineProcessing processing;
 
     public Model(int size){
         this.size = size;
 
+        processing = new LineProcessing(size);
+
         score = 0;
         nums = new int[size][size];
         occupiedCells = new boolean[size][size];
+        occCount = 1;
 
         generateCell();
 
@@ -64,72 +69,75 @@ class Model extends Thread implements IObject {
 
     private void numsPermutations(){
 
-        System.out.println("Before moving: ");
-        printArr();
-
         int[] tmp;
         boolean[] tmpB = new boolean[size];
+        occCount = 0;
 
         switch (pressedKey) {
             case 'R' -> {
                 for (int i = 0; i != size; i++) {
                     Arrays.fill(occupiedCells[i], false);
-                    collapseRight(nums[i], occupiedCells[i]);
+                    score += processing.collapseRight(nums[i], occupiedCells[i]);
+                    occCount += processing.getOccCount();
                 }
             }
             case 'L' -> {
                 for (int i = 0; i != size; i++) {
                     Arrays.fill(occupiedCells[i], false);
-                    collapseLeft(nums[i], occupiedCells[i]);
+                    score += processing.collapseLeft(nums[i], occupiedCells[i]);
+                    occCount += processing.getOccCount();
                 }
             }
             case 'D' -> {
                 for (int i = 0; i != size; i++) {
                     tmp = generateCol(i);
-                    collapseRight(tmp, tmpB);
+                    score += processing.collapseRight(tmp, tmpB);
                     insertNewCol(tmp, tmpB, i);
+                    occCount += processing.getOccCount();
                 }
             }
             case 'U' -> {
                 for (int i = 0; i != size; i++) {
                     tmp = generateCol(i);
-                    collapseLeft(tmp, tmpB);
+                    score += processing.collapseLeft(tmp, tmpB);
                     insertNewCol(tmp, tmpB, i);
+                    occCount += processing.getOccCount();
                 }
             }
         }
 
-        System.out.println(score);
-
         try {
-            sleep(10);
+            sleep(20);
         } catch (InterruptedException e){
             System.out.println("Interrupted!");
             currentThread().interrupt();
         }
 
-        if (!generateCell()) msg = Message.GAME_OVER;
+        if (!generateCell()) {
+            System.out.println("The last board:");
+            printArr();
+            msg = Message.GAME_OVER;
+        }
         else msg = Message.UPDATE;
+
+        System.out.println("Score: "+score+", OccCount: "+occCount);
+        printArr();
 
         notifyObserver();
     }
 
     private final Random random = new Random();
-
     int[] lastGenerated;
 
     private boolean generateCell(){
 
         int[] pos = new int[2];
-        int counter = 0;
-
-        if (counter == size*size) return false;
 
         do {
-            counter++;
-            pos[0] = random.nextInt(4);
-            pos[1] = random.nextInt(4);
-            if (counter == size*size) return false;
+            if (occCount == size*size) return false;
+            pos[0] = random.nextInt(size);
+            pos[1] = random.nextInt(size);
+
         } while (occupiedCells[pos[0]][pos[1]]);
         occupiedCells[pos[0]][pos[1]] = true;
 
@@ -138,6 +146,7 @@ class Model extends Thread implements IObject {
         else nums[pos[0]][pos[1]] = 4;
 
         lastGenerated = pos;
+        occCount++;
 
         return true;
     }
@@ -160,71 +169,8 @@ class Model extends Thread implements IObject {
     public void insertNewCol(int[] tmp, boolean[] tmpB, int col){
         for (int i = 0; i != size; i++){
             nums[i][col] = tmp [i];
-            occupiedCells[i][col] = tmpB[i];
+            occupiedCells[i][col] = (tmp[i] != 0);
         }
-    }
-
-    private void collapseLeft(int[] arr, boolean[] tmpB){
-        int temp = 0;
-        boolean wasAdded = false;
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i = 0; i != size; i++){
-            if (arr[i] == 0) continue;
-
-            if (!stack.isEmpty()) temp = stack.peek();
-
-            if (temp == arr[i] && !wasAdded){
-                stack.pop();
-                stack.push(arr[i] + temp);
-                score += arr[i] + temp;
-                arr[i] = 0;
-                wasAdded = true;
-
-            } else {
-                wasAdded = false;
-                stack.push(arr[i]);
-                arr[i] = 0;
-            }
-        }
-
-        int shift = stack.size()-1;
-        for (int i = shift; i != -1 ; i--) {
-            arr[i] = stack.pop();
-            tmpB[i] = true;
-        }
-
-    }
-
-    private void collapseRight(int[] arr, boolean[] tmpB){
-        int temp = 0;
-        boolean wasAdded = false;
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i = size-1; i != -1; i--){
-            if (arr[i] == 0) continue;
-
-            if (!stack.isEmpty()) temp = stack.peek();
-
-            if (temp == arr[i] && !wasAdded){
-                stack.pop();
-                stack.push(arr[i] + temp);
-                score += arr[i] + temp;
-                arr[i] = 0;
-                wasAdded = true;
-            } else {
-                wasAdded = false;
-                stack.push(arr[i]);
-                arr[i] = 0;
-            }
-        }
-
-        int shift = stack.size();
-        for (int i = size-shift; i != size; i++) {
-            arr[i] = stack.pop();
-            tmpB[i] = true;
-        }
-
     }
 
 }

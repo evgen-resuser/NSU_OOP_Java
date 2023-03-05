@@ -9,7 +9,7 @@ public class Main {
         Facade facade = new Facade(4);
 
         Window window = new Window(facade);
-        window.setSize(520, 520);
+        window.setSize(545, 650);
         window.setVisible(true);
         window.setName("2048");
 

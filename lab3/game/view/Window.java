@@ -18,7 +18,14 @@ public class Window extends JFrame implements IObserver{
     private Tile[][] tiles;
 
     JPanel grid;
-    GridLayout layout;
+    JPanel scores;
+    GridLayout gridLayout;
+    GridLayout recordLayout;
+    LayoutManager mainLayout;
+
+    Box recordBox;
+    Box gridBox;
+    JPanel content;
 
     public Window(Facade facade){
         facade.getObject().registerObserver(this);
@@ -31,19 +38,22 @@ public class Window extends JFrame implements IObserver{
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        initGrid();
+        initContent();
+
         initColorMap();
 
-        redrawGrid(facade.getNums());
+        setBest();
 
-        this.pack();
+        redrawGrid(facade.getNums());
     }
 
     @Override
     public void update(Message msg) {
         switch (msg){
-            case UPDATE ->
+            case UPDATE -> {
                 redrawGrid(facade.getNums());
+                repaintScore(facade.getScore());
+            }
 
             case GAME_OVER -> {
                 System.out.println("Game Over!");
@@ -56,12 +66,93 @@ public class Window extends JFrame implements IObserver{
         }
     }
 
+    private void initContent(){
+        content = new JPanel();
+        this.getContentPane().add(content);
+
+        mainLayout = new BoxLayout(content, BoxLayout.Y_AXIS);
+        recordBox = Box.createHorizontalBox();
+        gridBox = Box.createHorizontalBox();
+
+        Box.createGlue();
+        //gridBox.createGlue();
+
+        content.add(recordBox);
+        content.add(gridBox);
+
+        initScores();
+        initGrid();
+
+        scores.setPreferredSize(new Dimension(520, 80));
+        grid.setPreferredSize(new Dimension(520, 520));
+
+        recordBox.add(scores);
+        gridBox.add(grid);
+    }
+
+    JLabel labelScore;
+    JLabel labelRecord;
+
+    JPanel curScore;
+    JPanel record;
+
+    private void initScores(){
+        scores = new JPanel();
+        recordLayout = new GridLayout(2, 2, 0, 0);
+        scores.setLayout(recordLayout);
+
+        scores.setVisible(true);
+
+        JPanel curScoreLabel = new JPanel();
+        curScoreLabel.add(generateStaticLabel("Score:"));
+
+        JPanel recordLabel = new JPanel();
+        recordLabel.add(generateStaticLabel("Best:"));
+
+        curScore = new JPanel();
+        record = new JPanel();
+
+        labelScore = generateScoreLabel();
+        curScore.add(labelScore);
+
+        labelRecord = generateScoreLabel();
+        record.add(labelRecord);
+
+        scores.add(curScoreLabel);
+        scores.add(recordLabel);
+        scores.add(curScore);
+        scores.add(record);
+    }
+
+    private void setBest(){
+        labelRecord.setText(Integer.toString(recordsHandler.getRecord()));
+    }
+
+    private JLabel generateScoreLabel(){
+        JLabel label = new JLabel();
+        label.setFont(new Font("Arial", Font.BOLD, 36));
+        label.setText("0");
+        label.setBorder(BorderFactory.createEmptyBorder(-4, 1, 1, 1));
+        label.setVerticalAlignment(SwingConstants.CENTER);
+
+        return label;
+    }
+
+    private JLabel generateStaticLabel(String text){
+        JLabel label = new JLabel();
+        label.setFont(new Font("Arial", Font.PLAIN, 24));
+        label.setText(text);
+        label.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        label.setVerticalAlignment(SwingConstants.CENTER);
+
+        return label;
+    }
+
     private void initGrid(){
         tiles = new Tile[size][size];
         grid = new JPanel();
-        grid.setSize(520,520);
-        layout = new GridLayout(size,size, 5, 5);
-        grid.setLayout(layout);
+        gridLayout = new GridLayout(size,size, 5, 5);
+        grid.setLayout(gridLayout);
 
         for (int i = 0; i != size; i++){
             for (int j = 0; j != size; j++) {
@@ -69,8 +160,6 @@ public class Window extends JFrame implements IObserver{
                 grid.add(tiles[j][i]);
             }
         }
-
-        this.add(grid);
     }
 
     private void redrawGrid(int[][] arr){
@@ -90,6 +179,12 @@ public class Window extends JFrame implements IObserver{
                 tiles[j][i].change(arr[i][j], newColor);
             }
         }
+
+    }
+
+    private void repaintScore(int score){
+        labelScore.setText(Integer.toString(score));
+        curScore.repaint();
     }
 
     private void initColorMap(){
@@ -98,9 +193,8 @@ public class Window extends JFrame implements IObserver{
     }
 
     private void gameOverScreen(){
-
+        if (facade.getScore() > recordsHandler.getRecord()) recordsHandler.writeNewRecord(facade.getScore());
         grid.setVisible(false);
-
     }
 
     private void winScreen(){

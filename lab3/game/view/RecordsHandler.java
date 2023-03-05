@@ -1,7 +1,5 @@
 package game.view;
 
-import game.theme.ThemeReader;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,7 +9,9 @@ import java.util.Scanner;
 import static java.lang.System.exit;
 
 class RecordsHandler {
-    private int record;
+    private int record_;
+
+    private final File file;
 
     public RecordsHandler(){
         try {
@@ -20,35 +20,45 @@ class RecordsHandler {
             System.out.println(e.getMessage());
             exit(1);
         }
+
+        file = new File("src/game/view/best");
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File is created!");
+            } else System.out.println("File already exists! Rewriting...");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public int getRecord(){
-        return record;
+        return record_;
     }
 
-    public void writeNewRecord(){
-        File file = new File("record.txt");
+    public void writeNewRecord(int newRecord){
+        this.record_ = newRecord;
 
-        try (FileWriter writer = new FileWriter(file, false)) {
+        try {
+            FileWriter writer = new FileWriter(file, false);
 
-            writer.write(Integer.toString(record));
-            writer.append('\n');
-            writer.flush();
+            writer.write(Integer.toString(newRecord));
+            writer.close();
 
-        } catch (IOException e){
-            System.out.println("File not found!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private void readRecord() throws IOException{
-        InputStream is = ThemeReader.class.getResourceAsStream("record.txt");
+        InputStream is = RecordsHandler.class.getResourceAsStream("best");
 
         if (is == null){
-            throw new IOException("File 'record.txt' not found!");
+            record_ = 0;
+            return;
         }
 
         Scanner scan = new Scanner(is);
-        record = Integer.parseInt(scan.nextLine());
+        record_ = Integer.parseInt(scan.nextLine());
 
         scan.close();
     }
