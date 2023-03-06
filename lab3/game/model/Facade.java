@@ -29,10 +29,6 @@ public class Facade {
         return core.score;
     }
 
-    public void setGridSize(int size){
-        core.size = size;
-    }
-
     public void sendKey(char key){
         if (!block) core.pressedKey = key;
     }

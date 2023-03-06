@@ -90,7 +90,6 @@ public class LineProcessing implements IObject {
     }
 
     IObserver observer;
-    private Message msg;
 
     @Override
     public void registerObserver(IObserver observer) {
@@ -99,6 +98,7 @@ public class LineProcessing implements IObject {
 
     @Override
     public void notifyObserver() {
+        Message msg;
         msg = Message.REACH_2048;
         observer.update(msg);
     }

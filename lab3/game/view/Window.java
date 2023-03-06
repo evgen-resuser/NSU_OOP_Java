@@ -76,7 +76,6 @@ public class Window extends JFrame implements IObserver{
         gridBox = Box.createHorizontalBox();
 
         Box.createGlue();
-        //gridBox.createGlue();
 
         content.add(recordBox);
         content.add(gridBox);
@@ -95,7 +94,7 @@ public class Window extends JFrame implements IObserver{
     JLabel labelRecord;
 
     JPanel curScore;
-    JPanel record;
+    JPanel recordScore;
 
     private void initScores(){
         scores = new JPanel();
@@ -111,18 +110,18 @@ public class Window extends JFrame implements IObserver{
         recordLabel.add(generateStaticLabel("Best:"));
 
         curScore = new JPanel();
-        record = new JPanel();
+        recordScore = new JPanel();
 
         labelScore = generateScoreLabel();
         curScore.add(labelScore);
 
         labelRecord = generateScoreLabel();
-        record.add(labelRecord);
+        recordScore.add(labelRecord);
 
         scores.add(curScoreLabel);
         scores.add(recordLabel);
         scores.add(curScore);
-        scores.add(record);
+        scores.add(recordScore);
     }
 
     void setBest(){

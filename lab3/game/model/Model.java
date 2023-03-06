@@ -70,8 +70,7 @@ class Model extends Thread implements IObject {
         occupiedCells = new boolean[size][size];
         occCount = 0;
 
-        nums[0][0] = nums[0][1] = 1024;
-        occupiedCells[0][0] = occupiedCells[0][1] = true;
+        //nums[0][0] = nums[0][1] = 1024;
 
         msg = Message.UPDATE;
     }
@@ -87,7 +86,7 @@ class Model extends Thread implements IObject {
         try {
             sleep(20);
         } catch (InterruptedException e){
-            System.out.println("Interrupted!");
+            System.out.println(e.getMessage());
             currentThread().interrupt();
         }
 
@@ -136,7 +135,7 @@ class Model extends Thread implements IObject {
                 for (int i = 0; i != size; i++) {
                     tmp = generateCol(i);
                     score += processing.collapseRight(tmp, tmpB);
-                    insertNewCol(tmp, tmpB, i);
+                    insertNewCol(tmp, i);
                     occCount += processing.getOccCount();
                 }
             }
@@ -144,7 +143,7 @@ class Model extends Thread implements IObject {
                 for (int i = 0; i != size; i++) {
                     tmp = generateCol(i);
                     score += processing.collapseLeft(tmp, tmpB);
-                    insertNewCol(tmp, tmpB, i);
+                    insertNewCol(tmp, i);
                     occCount += processing.getOccCount();
                 }
             }
@@ -191,7 +190,7 @@ class Model extends Thread implements IObject {
         return tmp;
     }
 
-    public void insertNewCol(int[] tmp, boolean[] tmpB, int col){
+    public void insertNewCol(int[] tmp, int col){
         for (int i = 0; i != size; i++){
             nums[i][col] = tmp [i];
             occupiedCells[i][col] = (tmp[i] != 0);

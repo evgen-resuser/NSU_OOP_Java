@@ -21,7 +21,7 @@ class GameOverWindow implements ActionListener {
         window = new JWindow();
 
         JLabel label1 = new JLabel("Game Over!");
-        JLabel label2 = new JLabel( "You score: "+this.facade.getScore()+"\n");
+        JLabel label2 = new JLabel( "Your score: "+this.facade.getScore()+"\n");
 
         JButton button = new JButton("Retry");
         button.addActionListener(this);
@@ -37,7 +37,7 @@ class GameOverWindow implements ActionListener {
         panel.add(button);
 
         window.add(panel);
-        window.setSize(230, 125);
+        window.setSize(250, 125);
         window.setLocation(155, 300);
 
         window.setVisible(true);
