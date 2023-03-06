@@ -17,6 +17,7 @@ class Model extends Thread implements IObject {
     @Override
     public void registerObserver(IObserver observer) {
         this.observer = observer;
+        processing.observer = observer;
     }
 
     @Override
@@ -30,7 +31,7 @@ class Model extends Thread implements IObject {
     public void run() {
         while (this.isAlive()) {
             if (pressedKey != ' ') {
-                numsPermutations();
+                gridPermutations();
                 pressedKey = ' ';
             }
         }
@@ -54,20 +55,63 @@ class Model extends Thread implements IObject {
 
         processing = new LineProcessing(size);
 
-        score = 0;
-        nums = new int[size][size];
-        occupiedCells = new boolean[size][size];
+        startGame();
+
         occCount = 1;
 
         generateCell();
 
-        msg = Message.UPDATE;
-
     }
 
-    //WARNING!
+    public void startGame(){
+        isPlaying = true;
+        score = 0;
+        nums = new int[size][size];
+        occupiedCells = new boolean[size][size];
+        occCount = 0;
 
-    private void numsPermutations(){
+        nums[0][0] = nums[0][1] = 1024;
+        occupiedCells[0][0] = occupiedCells[0][1] = true;
+
+        msg = Message.UPDATE;
+    }
+
+    //WARNING! SCARY CODE!
+
+    boolean isPlaying;
+
+    private void gridPermutations(){
+
+        doPressedKey();
+
+        try {
+            sleep(20);
+        } catch (InterruptedException e){
+            System.out.println("Interrupted!");
+            currentThread().interrupt();
+        }
+
+        if (!generateCell()) {
+            System.out.println("The last board:");
+            printArr();
+            isPlaying = false;
+            msg = Message.GAME_OVER;
+        }
+        else msg = Message.UPDATE;
+
+        System.out.println("Score: "+score+", OccCount: "+occCount);
+        printArr();
+
+        notifyObserver();
+    }
+
+    private void doPressedKey(){
+
+        if (!isPlaying) {
+            startGame();
+            notifyObserver();
+            return;
+        }
 
         int[] tmp;
         boolean[] tmpB = new boolean[size];
@@ -105,25 +149,6 @@ class Model extends Thread implements IObject {
                 }
             }
         }
-
-        try {
-            sleep(20);
-        } catch (InterruptedException e){
-            System.out.println("Interrupted!");
-            currentThread().interrupt();
-        }
-
-        if (!generateCell()) {
-            System.out.println("The last board:");
-            printArr();
-            msg = Message.GAME_OVER;
-        }
-        else msg = Message.UPDATE;
-
-        System.out.println("Score: "+score+", OccCount: "+occCount);
-        printArr();
-
-        notifyObserver();
     }
 
     private final Random random = new Random();

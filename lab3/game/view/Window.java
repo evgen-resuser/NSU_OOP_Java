@@ -51,6 +51,7 @@ public class Window extends JFrame implements IObserver{
     public void update(Message msg) {
         switch (msg){
             case UPDATE -> {
+                grid.setVisible(true);
                 redrawGrid(facade.getNums());
                 repaintScore(facade.getScore());
             }
@@ -124,7 +125,8 @@ public class Window extends JFrame implements IObserver{
         scores.add(record);
     }
 
-    private void setBest(){
+    void setBest(){
+        if (facade.getScore() > recordsHandler.getRecord()) recordsHandler.writeNewRecord(facade.getScore());
         labelRecord.setText(Integer.toString(recordsHandler.getRecord()));
     }
 
@@ -183,6 +185,7 @@ public class Window extends JFrame implements IObserver{
     }
 
     private void repaintScore(int score){
+        setBest();
         labelScore.setText(Integer.toString(score));
         curScore.repaint();
     }
@@ -193,13 +196,13 @@ public class Window extends JFrame implements IObserver{
     }
 
     private void gameOverScreen(){
-        if (facade.getScore() > recordsHandler.getRecord()) recordsHandler.writeNewRecord(facade.getScore());
-        grid.setVisible(false);
+        setBest();
+        new GameOverWindow(facade);
     }
 
     private void winScreen(){
 
-        grid.setVisible(false);
+        new Reaching2048Window(facade);
 
     }
 }

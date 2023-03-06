@@ -5,6 +5,7 @@ import game.observer.IObject;
 public class Facade {
     private final Model core;
     private final int size;
+    private boolean block;
 
     public Facade(int size){
         this.size = size;
@@ -33,10 +34,14 @@ public class Facade {
     }
 
     public void sendKey(char key){
-        core.pressedKey = key;
+        if (!block) core.pressedKey = key;
     }
 
     public int[] getLastGenerated(){
         return core.lastGenerated;
+    }
+
+    public void blockInput(boolean val){
+        block = val;
     }
 }

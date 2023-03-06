@@ -1,8 +1,12 @@
 package game.model;
 
+import game.Message;
+import game.observer.IObject;
+import game.observer.IObserver;
+
 import java.util.Stack;
 
-public class LineProcessing {
+public class LineProcessing implements IObject {
     private final int size;
     private int occCount;
 
@@ -13,6 +17,7 @@ public class LineProcessing {
     public LineProcessing(int size){
         this.size = size;
         this.occCount = 0;
+
     }
 
     int collapseLeft(int[] arr, boolean[] tmpB){
@@ -30,6 +35,7 @@ public class LineProcessing {
                 stack.pop();
                 stack.push(arr[i] + temp);
                 score += arr[i] + temp;
+                if (arr[i] + temp == 2048) notifyObserver();
                 arr[i] = 0;
                 wasAdded = true;
 
@@ -64,6 +70,7 @@ public class LineProcessing {
                 stack.pop();
                 stack.push(arr[i] + temp);
                 score += arr[i] + temp;
+                if (arr[i] + temp == 2048) notifyObserver();
                 arr[i] = 0;
                 wasAdded = true;
             } else {
@@ -80,5 +87,19 @@ public class LineProcessing {
             tmpB[i] = true;
         }
         return score;
+    }
+
+    IObserver observer;
+    private Message msg;
+
+    @Override
+    public void registerObserver(IObserver observer) {
+        this.observer = observer;
+    }
+
+    @Override
+    public void notifyObserver() {
+        msg = Message.REACH_2048;
+        observer.update(msg);
     }
 }

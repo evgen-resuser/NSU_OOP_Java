@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.Cleaner;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
 class RecordsHandler {
-    private int record_;
+    private int recordScore;
 
     private final File file;
 
@@ -32,18 +33,15 @@ class RecordsHandler {
     }
 
     public int getRecord(){
-        return record_;
+        return recordScore;
     }
 
     public void writeNewRecord(int newRecord){
-        this.record_ = newRecord;
+        this.recordScore = newRecord;
 
-        try {
-            FileWriter writer = new FileWriter(file, false);
-
+        try (FileWriter writer = new FileWriter(file, false)){
             writer.write(Integer.toString(newRecord));
-            writer.close();
-
+            writer.flush();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -53,14 +51,15 @@ class RecordsHandler {
         InputStream is = RecordsHandler.class.getResourceAsStream("best");
 
         if (is == null){
-            record_ = 0;
+            recordScore = 0;
             return;
         }
 
         Scanner scan = new Scanner(is);
-        record_ = Integer.parseInt(scan.nextLine());
+        recordScore = Integer.parseInt(scan.nextLine());
 
-        scan.close();
+        Cleaner.Cleanable cleanable = scan::close;
+        cleanable.clean();
     }
 
 
