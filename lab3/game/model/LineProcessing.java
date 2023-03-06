@@ -7,6 +7,25 @@ import game.observer.IObserver;
 import java.util.Stack;
 
 public class LineProcessing implements IObject {
+
+    //####################### OBSERVER PART #######################
+
+    IObserver observer;
+
+    @Override
+    public void registerObserver(IObserver observer) {
+        this.observer = observer;
+    }
+
+    @Override
+    public void notifyObserver() {
+        Message msg;
+        msg = Message.REACH_2048;
+        observer.update(msg);
+    }
+
+    //##############################################################
+
     private final int size;
     private int occCount;
 
@@ -87,19 +106,5 @@ public class LineProcessing implements IObject {
             tmpB[i] = true;
         }
         return score;
-    }
-
-    IObserver observer;
-
-    @Override
-    public void registerObserver(IObserver observer) {
-        this.observer = observer;
-    }
-
-    @Override
-    public void notifyObserver() {
-        Message msg;
-        msg = Message.REACH_2048;
-        observer.update(msg);
     }
 }
