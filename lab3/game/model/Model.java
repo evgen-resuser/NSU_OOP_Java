@@ -70,7 +70,7 @@ class Model extends Thread implements IObject {
         occupiedCells = new boolean[size][size];
         occCount = 0;
 
-        //nums[0][0] = nums[0][1] = 1024;
+        //nums[0][0] = nums[0][1] = 2048;
 
         msg = Message.UPDATE;
     }

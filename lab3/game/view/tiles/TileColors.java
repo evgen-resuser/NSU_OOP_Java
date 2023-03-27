@@ -1,14 +1,18 @@
-package game.view;
+package game.view.tiles;
 
 import javax.swing.*;
 import java.awt.*;
 
-class Tile extends JPanel {
+public class TileColors extends JPanel implements Tile{
 
-    private final JLabel label;
+    private JLabel label = null;
 
-    public Tile(){
 
+    public TileColors(){
+        initTile();
+    }
+
+    public void initTile(){
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.lightGray);
 
@@ -21,9 +25,9 @@ class Tile extends JPanel {
         this.add(label);
     }
 
-    public void change(int newNum, int color){
+    public void change(int newNum, String value){
 
-        this.setBackground(new Color(color));
+        this.setBackground(new Color(Integer.parseInt(value, 16)));
         if (newNum == 0) label.setText(" ");
         else label.setText(Integer.toString(newNum));
 

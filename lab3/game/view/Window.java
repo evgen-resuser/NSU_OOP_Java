@@ -1,21 +1,27 @@
 package game.view;
 
+import game.Controls;
 import game.Message;
 import game.model.Facade;
-import game.observer.IObserver;
 import game.theme.ThemeReader;
+import game.view.tiles.Tile;
+import game.view.tiles.TileColors;
+import game.view.tiles.TilePics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.constant.Constable;
 import java.util.Map;
 
-public class Window extends JFrame implements IObserver{
+public class Window extends JFrame{
     private final Facade facade;
     private final RecordsHandler recordsHandler;
     private final int size;
 
-    private Map<Integer, Integer> map;
+    private Map<Integer, String> map;
     private Tile[][] tiles;
+
+    private int mode;
 
     JPanel grid;
     JPanel scores;
@@ -27,32 +33,62 @@ public class Window extends JFrame implements IObserver{
     Box gridBox;
     JPanel content;
 
-    public Window(Facade facade){
-        facade.getObject().registerObserver(this);
+    /**
+     * Creates swing window for the game
+     * @param facade - facade of Game Core
+     * @param mode - style of tiles: 0 - Colors (from 'theme/colors.txt'),
+     *             1 - Pictures (from 'sprites/{0-4096}.png');
+     * @param controller - key Listener and update messages sender
+     */
+    public Window(Facade facade, int mode, Controls controller){
+        initDefaultWindow();
 
         recordsHandler = new RecordsHandler();
 
         size = facade.getSize();
         this.facade = facade;
-
-        this.setResizable(false);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        modeSetter(mode);
+        this.addKeyListener(controller);
 
         initContent();
 
-        initColorMap();
-
         setBest();
 
-        redrawGrid(facade.getNums());
+        if (mode == 0) {
+            initColorMap();
+            redrawGridColors(facade.getNums());
+        }
+        else
+            redrawGridPics(facade.getNums());
     }
 
-    @Override
+    private void modeSetter(int mode){
+        if (mode == 0 || mode == 1) {
+            this.mode = mode;
+            return;
+        }
+        System.out.println("Unknown mode! Setting default mode (0)...");
+        this.mode = 0;
+    }
+
+    private void initDefaultWindow(){
+        this.setSize(545, 650);
+        this.setVisible(true);
+        this.setName("2048");
+        this.setResizable(false);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon("src/game/sprites/logo.png");
+        this.setIconImage(icon.getImage());
+    }
+
     public void update(Message msg) {
         switch (msg){
             case UPDATE -> {
-                grid.setVisible(true);
-                redrawGrid(facade.getNums());
+                if (mode == 0)
+                    redrawGridColors(facade.getNums());
+                else
+                    redrawGridPics(facade.getNums());
                 repaintScore(facade.getScore());
             }
 
@@ -150,21 +186,23 @@ public class Window extends JFrame implements IObserver{
     }
 
     private void initGrid(){
-        tiles = new Tile[size][size];
+
+        tiles = (mode == 0 ? new TileColors[size][size] : new TilePics[size][size]);
+
         grid = new JPanel();
         gridLayout = new GridLayout(size,size, 5, 5);
         grid.setLayout(gridLayout);
 
         for (int i = 0; i != size; i++){
             for (int j = 0; j != size; j++) {
-                tiles[j][i] = new Tile();
-                grid.add(tiles[j][i]);
+                tiles[j][i] = (mode == 0 ? new TileColors() : new TilePics());
+                grid.add((Component) tiles[j][i]);
             }
         }
     }
 
-    private void redrawGrid(int[][] arr){
-        int newColor;
+    private void redrawGridColors(int[][] arr){
+        String newColor;
         int[] last = facade.getLastGenerated();
 
         for (int i = 0; i != size; i++){
@@ -180,7 +218,15 @@ public class Window extends JFrame implements IObserver{
                 tiles[j][i].change(arr[i][j], newColor);
             }
         }
+    }
 
+    private void redrawGridPics(int[][] arr){
+
+        for (int i = 0; i != size; i++){
+            for (int j = 0; j != size; j++) {
+                tiles[j][i].change(arr[i][j], "");
+            }
+        }
     }
 
     private void repaintScore(int score){

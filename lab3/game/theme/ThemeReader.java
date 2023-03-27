@@ -9,7 +9,7 @@ import java.util.Scanner;
 import static java.lang.System.exit;
 
 public class ThemeReader {
-    private final Map<Integer, Integer> colorMap;
+    private final Map<Integer, String> colorMap;
 
     public ThemeReader(){
         colorMap = new HashMap<>();
@@ -36,13 +36,13 @@ public class ThemeReader {
         while (scan.hasNextLine()){
             input = scan.nextLine();
             String[] str = input.split(" ");
-            colorMap.put(Integer.parseInt(str[0]), Integer.parseInt(str[1], 16));
+            colorMap.put(Integer.parseInt(str[0]), str[1]);
         }
 
         scan.close();
     }
 
-    public Map<Integer, Integer> getColorMap() {
+    public Map<Integer, String> getColorMap() {
         return colorMap;
     }
 }

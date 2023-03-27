@@ -7,6 +7,10 @@ public class Facade {
     private final int size;
     private boolean block;
 
+    /**
+    * Creates the Core of the game and Facade to interact with it
+    * @param size grid size
+     */
     public Facade(int size){
         this.size = size;
         core = new Model(size);
